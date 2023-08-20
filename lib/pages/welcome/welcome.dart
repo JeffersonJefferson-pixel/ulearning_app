@@ -133,8 +133,8 @@ class _WelcomeState extends State<Welcome> {
               );
             } else {
               // jumpt to a new page
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const MyHomePage()));
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("signIn", (route) => false);
             }
           },
           child: Container(
