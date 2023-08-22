@@ -3,19 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/pages/common_widgets.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
-import 'package:ulearning_app/pages/sign_in/bloc/sign_in_events.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_states.dart';
-import 'package:ulearning_app/pages/sign_in/sign_in_controller.dart';
-import 'package:ulearning_app/pages/sign_in/widgets/sign_in_widget.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
@@ -24,14 +21,14 @@ class _SignInState extends State<SignIn> {
         child: SafeArea(
           child: Scaffold(
             backgroundColor: Colors.white,
-            appBar: buildAppBar("Log In"),
+            appBar: buildAppBar("Sign Up"),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildThirdPartyLogin(context),
+                SizedBox(height: 20.h),
                 Center(
                   child: reusableText(
-                    "Or use your email account to login",
+                    "Enter your details below and free sign up",
                   ),
                 ),
                 Container(
@@ -40,44 +37,59 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      reusableText("Username"),
+                      buildTextField(
+                        "Enter your username",
+                        "Name",
+                        "name",
+                        "user",
+                        (value) {
+                          // context.read<SignInBloc>().add(EmailEvent(value));
+                        },
+                      ),
                       reusableText("Email"),
-                      SizedBox(height: 5.h),
                       buildTextField(
                         "Enter your email address",
                         "Email",
                         "email",
                         "user",
                         (value) {
-                          context.read<SignInBloc>().add(EmailEvent(value));
+                          // context.read<SignInBloc>().add(EmailEvent(value));
                         },
                       ),
                       reusableText("Password"),
-                      SizedBox(height: 5.h),
                       buildTextField(
                         "Enter your password",
-                        "Email",
+                        "Password",
                         "password",
                         "lock",
                         (value) {
-                          context.read<SignInBloc>().add(PasswordEvent(value));
+                          // context.read<SignInBloc>().add(PasswordEvent(value));
+                        },
+                      ),
+                      reusableText("Re-enter your password"),
+                      buildTextField(
+                        "Re-enter your password",
+                        "Password",
+                        "password",
+                        "lock",
+                        (value) {
+                          // context.read<SignInBloc>().add(PasswordEvent(value));
                         },
                       ),
                     ],
                   ),
                 ),
-                forgotPassword(),
-                buildAuthButton(
-                  "Log in",
-                  "login",
-                  () {
-                    SignInController(context: context).handleSignIn("email");
-                  },
+                Container(
+                  margin: EdgeInsets.only(left: 25.w),
+                  child:
+                      reusableText("Enter your detials below and free sign up"),
                 ),
                 buildAuthButton(
-                  "Register",
-                  "register",
+                  "Sign Up",
+                  "login",
                   () {
-                    Navigator.of(context).pushNamed("register");
+                    // Navigator.of(context).pushNamed("register");
                   },
                 )
               ],
