@@ -30,6 +30,7 @@ Widget buildThirdPartyLogin(BuildContext context) {
         top: 40.h,
         bottom: 20.h,
       ),
+      padding: EdgeInsets.only(left: 25.w, right: 25.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -78,7 +79,7 @@ Widget buildTextField(
       borderRadius: BorderRadius.all(
         Radius.circular(15.w),
       ),
-      border: Border.all(color: AppColors.primaryFourElementText),
+      border: Border.all(color: AppColors.primaryFourthElementText),
     ),
     child: Row(
       children: [
@@ -163,7 +164,7 @@ Widget buildAuthButton(String buttonName, String buttonType) {
         border: Border.all(
           color: buttonType == "login"
               ? Colors.transparent
-              : AppColors.primaryFourElementText,
+              : AppColors.primaryFourthElementText,
         ),
         boxShadow: [
           BoxShadow(
