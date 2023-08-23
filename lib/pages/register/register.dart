@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/pages/common_widgets.dart';
-import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
-import 'package:ulearning_app/pages/sign_in/bloc/sign_in_states.dart';
+import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
+import 'package:ulearning_app/pages/register/bloc/register_events.dart';
+import 'package:ulearning_app/pages/register/bloc/register_states.dart';
+import 'package:ulearning_app/pages/register/register_controller.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -15,7 +17,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+    return BlocBuilder<RegisterBloc, RegisterStates>(builder: (context, state) {
       return Container(
         color: Colors.white,
         child: SafeArea(
@@ -44,7 +46,9 @@ class _RegisterState extends State<Register> {
                         "name",
                         "user",
                         (value) {
-                          // context.read<SignInBloc>().add(EmailEvent(value));
+                          context
+                              .read<RegisterBloc>()
+                              .add(UsernameEvent(value));
                         },
                       ),
                       reusableText("Email"),
@@ -54,7 +58,7 @@ class _RegisterState extends State<Register> {
                         "email",
                         "user",
                         (value) {
-                          // context.read<SignInBloc>().add(EmailEvent(value));
+                          context.read<RegisterBloc>().add(EmailEvent(value));
                         },
                       ),
                       reusableText("Password"),
@@ -64,7 +68,9 @@ class _RegisterState extends State<Register> {
                         "password",
                         "lock",
                         (value) {
-                          // context.read<SignInBloc>().add(PasswordEvent(value));
+                          context
+                              .read<RegisterBloc>()
+                              .add(PasswordEvent(value));
                         },
                       ),
                       reusableText("Re-enter your password"),
@@ -74,7 +80,9 @@ class _RegisterState extends State<Register> {
                         "password",
                         "lock",
                         (value) {
-                          // context.read<SignInBloc>().add(PasswordEvent(value));
+                          context
+                              .read<RegisterBloc>()
+                              .add(RePasswordEvent(value));
                         },
                       ),
                     ],
@@ -82,14 +90,14 @@ class _RegisterState extends State<Register> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 25.w),
-                  child:
-                      reusableText("Enter your detials below and free sign up"),
+                  child: reusableText(
+                      "By creating an account, you have to agree with our term and conditions"),
                 ),
                 buildAuthButton(
                   "Sign Up",
                   "login",
                   () {
-                    // Navigator.of(context).pushNamed("register");
+                    RegisterController(context).handleEmailRegister();
                   },
                 )
               ],
