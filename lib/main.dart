@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/app_blocs.dart';
 import 'package:ulearning_app/app_events.dart';
 import 'package:ulearning_app/app_states.dart';
+import 'package:ulearning_app/common/routes/pages.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/pages/application/application.dart';
 import 'package:ulearning_app/pages/bloc_providers.dart';
 import 'package:ulearning_app/pages/register/register.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: AppBlocProviders.allBlocProviders,
+      providers: [...AppPages.allBlocProviders(context)],
       child: ScreenUtilInit(
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -37,11 +39,13 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.white,
             ),
           ),
-          home: const Welcome(),
-          routes: {
-            "signIn": (context) => const SignIn(),
-            "register": (context) => const Register()
-          },
+          // home: const Application(),
+          onGenerateRoute: AppPages.generateRouteSettings,
+          // routes: {
+          //   "signIn": (context) => const SignIn(),
+          //   "register": (context) => const Register(),
+          //   "application": (context) => const Application()
+          // },
         ),
       ),
     );
