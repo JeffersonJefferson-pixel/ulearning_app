@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ulearning_app/common/routes/names.dart';
+import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/application/application.dart';
+import 'package:ulearning_app/pages/application/bloc/app_bloc.dart';
 import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
 import 'package:ulearning_app/pages/register/register.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
@@ -36,7 +38,7 @@ class AppPages {
           route: AppRoutes.APPLICATION,
           page: const Application(),
           bloc: BlocProvider(
-            create: (_) => RegisterBloc(),
+            create: (_) => AppBloc(),
           ),
         ),
       ];
@@ -53,11 +55,17 @@ class AppPages {
     if (settings.name != null) {
       var result = routes().where((element) => element.route == settings.name);
       if (result.isNotEmpty) {
+        bool deviceFirstOpen = Global.storageService.getDeviceFirstOpen();
+        if (result.first.route == AppRoutes.INITIAL && deviceFirstOpen) {
+          return MaterialPageRoute(
+              builder: (_) => const SignIn(), settings: settings);
+        }
         return MaterialPageRoute(
             builder: (_) => result.first.page, settings: settings);
       }
     }
-    return MaterialPageRoute(builder: (_) => SignIn(), settings: settings);
+    return MaterialPageRoute(
+        builder: (_) => const SignIn(), settings: settings);
   }
 }
 

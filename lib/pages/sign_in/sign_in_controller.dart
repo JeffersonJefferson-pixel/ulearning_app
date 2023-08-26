@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/widgets/flutter_toast.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
 
@@ -41,7 +42,9 @@ class SignInController {
           }
           var user = credential.user;
           if (user != null) {
-            print("user exist");
+            // print("user exist");
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                AppRoutes.APPLICATION, (route) => false);
           } else {
             toastInfo(msg: "You are not a user");
             return;

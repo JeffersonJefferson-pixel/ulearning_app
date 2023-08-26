@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/values/colors.dart';
-import 'package:ulearning_app/main.dart';
+import 'package:ulearning_app/common/values/constant.dart';
+import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_blocs.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_events.dart';
 import 'package:ulearning_app/pages/welcome/bloc/welcome_states.dart';
@@ -135,6 +136,8 @@ class _WelcomeState extends State<Welcome> {
               );
             } else {
               // jumpt to a new page
+              Global.storageService
+                  .setBool(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME, true);
               Navigator.of(context)
                   .pushNamedAndRemoveUntil(AppRoutes.SIGN_IN, (route) => false);
             }
