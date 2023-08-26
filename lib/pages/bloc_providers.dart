@@ -1,18 +1,18 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ulearning_app/app_blocs.dart';
-import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
-import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
-import 'package:ulearning_app/pages/welcome/bloc/welcome_blocs.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:ulearning_app/app_blocs.dart';
+// import 'package:ulearning_app/pages/register/bloc/register_bloc.dart';
+// import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
+// import 'package:ulearning_app/pages/welcome/bloc/welcome_blocs.dart';
 
-class AppBlocProviders {
-  static get allBlocProviders => [
-        BlocProvider(
-          create: (context) => WelcomeBloc(),
-        ),
-        // BlocProvider(
-        //   create: (context) => AppBlocs(),
-        // ),
-        BlocProvider(create: (context) => SignInBloc()),
-        BlocProvider(create: (context) => RegisterBloc())
-      ];
-}
+// class AppBlocProviders {
+//   static get allBlocProviders => [
+//         BlocProvider(
+//           create: (context) => WelcomeBloc(),
+//         ),
+//         // BlocProvider(
+//         //   create: (context) => AppBlocs(),
+//         // ),
+//         BlocProvider(create: (context) => SignInBloc()),
+//         BlocProvider(create: (context) => RegisterBloc())
+//       ];
+// }
