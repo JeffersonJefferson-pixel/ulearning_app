@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
               profileIcon(),
               Padding(
                 padding: EdgeInsets.only(left: 25.w),
-                child: buildListView(),
+                child: buildListView(context),
               )
             ],
           ),

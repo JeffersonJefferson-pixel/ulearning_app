@@ -17,6 +17,10 @@ class StorageService {
     return await _prefs.setString(key, value);
   }
 
+  Future<bool> remove(String key) {
+    return _prefs.remove(key);
+  }
+
   bool getDeviceFirstOpen() {
     return _prefs.getBool(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME) ?? false;
   }
