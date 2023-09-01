@@ -4,19 +4,13 @@ import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/global.dart';
+import 'package:ulearning_app/pages/common_widgets.dart';
 
 AppBar buildAppBar() {
   return AppBar(
     title: Container(
       child: Container(
-        child: Text(
-          "Settings",
-          style: TextStyle(
-            color: AppColors.primaryText,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.sp,
-          ),
-        ),
+        child: reusableText("Settings"),
       ),
     ),
   );
