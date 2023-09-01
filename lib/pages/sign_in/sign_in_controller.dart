@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ulearning_app/common/apis/user_api.dart';
+import 'package:ulearning_app/common/entities/user.dart';
 import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widgets/flutter_toast.dart';
@@ -44,11 +49,19 @@ class SignInController {
           }
           var user = credential.user;
           if (user != null) {
-            // print("user exist");
-            Global.storageService
-                .setString(AppConstants.STORAGE_USER_TOKEN_KEY, "12345678");
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                AppRoutes.APPLICATION, (route) => false);
+            String? displayName = user.displayName;
+            String? email = user.email;
+            String? id = user.uid;
+            String? photoUrl = user.photoURL;
+            LoginRequestEntity loginRequestEntity = LoginRequestEntity(
+              type: 1,
+              name: displayName,
+              email: email,
+              open_id: id,
+              avatar: photoUrl,
+            );
+
+            asyncPostAllData(loginRequestEntity);
           } else {
             toastInfo(msg: "You are not a user");
             return;
@@ -67,5 +80,32 @@ class SignInController {
         }
       }
     } catch (e) {}
+  }
+
+  void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
+    EasyLoading.show(
+      indicator: CircularProgressIndicator(),
+      maskType: EasyLoadingMaskType.clear,
+      dismissOnTap: true,
+    );
+    UserLoginResponseEntity result =
+        await UserAPI.login(params: loginRequestEntity);
+
+    if (result.code == 200) {
+      try {
+        Global.storageService.setString(
+            AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.data));
+        Global.storageService.setString(
+            AppConstants.STORAGE_USER_TOKEN_KEY, result.data!.access_token!);
+        EasyLoading.dismiss();
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
+      } catch (e) {
+        print("saving local storage error ${e.toString()}");
+      }
+    } else {
+      EasyLoading.dismiss();
+      toastInfo(msg: "unknown error");
+    }
   }
 }
