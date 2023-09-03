@@ -21,6 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void logoutUser() {
     context.read<AppBloc>().add(const TriggerAppEvent(0));
     Global.storageService.remove(AppConstants.STORAGE_USER_TOKEN_KEY);
+    Global.storageService.remove(AppConstants.STORAGE_USER_PROFILE_KEY);
     Navigator.of(context)
         .restorablePushNamedAndRemoveUntil(AppRoutes.SIGN_IN, (route) => false);
   }
