@@ -2,7 +2,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ulearning_app/common/entities/course.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widgets/base_text_widget.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_events.dart';
@@ -246,14 +248,14 @@ Widget _menuButton(
   );
 }
 
-Widget courseGrid() {
+Widget courseGrid(CourseItem item) {
   return Container(
     padding: EdgeInsets.all(12.w),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(15.w),
-      image: const DecorationImage(
+      image: DecorationImage(
         fit: BoxFit.fill,
-        image: AssetImage("assets/icons/image_2.png"),
+        image: NetworkImage(AppConstants.SERVER_UPLOADS + item.thumbnail!),
       ),
     ),
     child: Column(
@@ -262,7 +264,7 @@ Widget courseGrid() {
       children: [
         Container(
           child: Text(
-            "Best course for IT and Engineering",
+            item.name ?? "",
             maxLines: 1,
             overflow: TextOverflow.fade,
             textAlign: TextAlign.left,
@@ -279,7 +281,7 @@ Widget courseGrid() {
         ),
         Container(
           child: Text(
-            "Flutter best course",
+            item.description ?? "",
             maxLines: 1,
             overflow: TextOverflow.fade,
             textAlign: TextAlign.left,
