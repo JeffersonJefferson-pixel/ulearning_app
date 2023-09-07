@@ -10,6 +10,7 @@ import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widgets/flutter_toast.dart';
 import 'package:ulearning_app/global.dart';
+import 'package:ulearning_app/pages/home/home_controller.dart';
 import 'package:ulearning_app/pages/sign_in/bloc/sign_in_bloc.dart';
 
 class SignInController {
@@ -61,7 +62,10 @@ class SignInController {
               avatar: photoUrl,
             );
 
-            asyncPostAllData(loginRequestEntity);
+            await asyncPostAllData(loginRequestEntity);
+            if (context.mounted) {
+              await HomeController(context: context).init();
+            }
           } else {
             toastInfo(msg: "You are not a user");
             return;
@@ -82,7 +86,7 @@ class SignInController {
     } catch (e) {}
   }
 
-  void asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
+  Future<void> asyncPostAllData(LoginRequestEntity loginRequestEntity) async {
     EasyLoading.show(
       indicator: CircularProgressIndicator(),
       maskType: EasyLoadingMaskType.clear,
@@ -98,8 +102,11 @@ class SignInController {
         Global.storageService.setString(
             AppConstants.STORAGE_USER_TOKEN_KEY, result.data!.access_token!);
         EasyLoading.dismiss();
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
+
+        if (context.mounted) {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
+        }
       } catch (e) {
         print("saving local storage error ${e.toString()}");
       }

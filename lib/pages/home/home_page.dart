@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ulearning_app/common/entities/entities.dart';
+import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/values/colors.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_blocs.dart';
 import 'package:ulearning_app/pages/home/bloc/home_page_states.dart';
@@ -15,22 +17,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late HomeController _homeController;
+  late UserItem? userProfile;
   @override
   void initState() {
     super.initState();
-    _homeController = HomeController(context: context);
-    _homeController.init();
+    userProfile = HomeController(context: context).userProfile;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _homeController.userProfile != null
+    return userProfile != null
         ? BlocBuilder<HomePageBlocs, HomePageStates>(builder: (context, state) {
+            if (state.courseItems.isEmpty) {
+              HomeController(context: context).init();
+            } else {
+              print("course items is not empty");
+            }
             return Scaffold(
               backgroundColor: Colors.white,
-              appBar:
-                  buildAppBar(_homeController.userProfile!.avatar.toString()),
+              appBar: buildAppBar(userProfile!.avatar.toString()),
               body: Container(
                 margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25.w),
                 child: CustomScrollView(
@@ -43,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SliverToBoxAdapter(
                         child: homePageText(
-                      _homeController.userProfile!.name.toString(),
+                      userProfile!.name.toString(),
                       top: 5,
                     )),
                     SliverPadding(padding: EdgeInsets.only(top: 20.h)),
@@ -65,7 +70,13 @@ class _HomePageState extends State<HomePage> {
                           childCount: state.courseItems.length,
                           (BuildContext context, int index) {
                             return GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      AppRoutes.COURSE_DETAIL,
+                                      arguments: {
+                                        "id": state.courseItems[index].id
+                                      });
+                                },
                                 child: courseGrid(state.courseItems[index]));
                           },
                         ),
