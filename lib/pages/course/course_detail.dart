@@ -54,7 +54,20 @@ class _CourseDetailState extends State<CourseDetail> {
                         SizedBox(
                           height: 20.h,
                         ),
-                        buyButton("Go Buy")
+                        buyButton("Go Buy"),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        courseSummaryTitle(),
+                        courseSummaryView(context),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        lessonListTitle(),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        courseLessonList(),
                       ]),
                 )
               ],
