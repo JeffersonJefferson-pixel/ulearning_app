@@ -15,4 +15,12 @@ class CourseAPI {
 
     return CourseDetailResponseEntity.fromJson(response);
   }
+
+  static Future<BaseResponseEntity> coursePay(
+      {CourseRequestEntity? params}) async {
+    var response = await HttpUtil()
+        .post('api/checkout', queryParameters: params?.toJson());
+
+    return BaseResponseEntity.fromJson(response);
+  }
 }

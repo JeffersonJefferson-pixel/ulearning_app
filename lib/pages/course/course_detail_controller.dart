@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ulearning_app/common/apis/course_api.dart';
 import 'package:ulearning_app/common/entities/course.dart';
 import 'package:ulearning_app/common/widgets/flutter_toast.dart';
@@ -29,6 +30,23 @@ class CourseDetailController {
     } else {
       toastInfo(msg: "Something went wrong");
       print('Error code: ${result.code}');
+    }
+  }
+
+  void goBuy(int? id) async {
+    EasyLoading.show(
+        indicator: const CircularProgressIndicator(),
+        maskType: EasyLoadingMaskType.clear,
+        dismissOnTap: true);
+    CourseRequestEntity courseRequestEntity = CourseRequestEntity();
+    courseRequestEntity.id = id;
+    var result = await CourseAPI.coursePay(params: courseRequestEntity);
+    EasyLoading.dismiss();
+    if (result.code == 200) {
+      var url = Uri.decodeFull(result.data!);
+      print('url: $url');
+    } else {
+      print('payment failed');
     }
   }
 }
