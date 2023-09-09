@@ -255,7 +255,7 @@ Widget courseGrid(CourseItem item) {
       borderRadius: BorderRadius.circular(15.w),
       image: DecorationImage(
         fit: BoxFit.fill,
-        image: NetworkImage(AppConstants.SERVER_UPLOADS + item.thumbnail!),
+        image: NetworkImage("${AppConstants.SERVER_UPLOADS}${item.thumbnail}"),
       ),
     ),
     child: Column(

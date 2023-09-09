@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/values/colors.dart';
+import 'package:ulearning_app/common/values/constant.dart';
 import 'package:ulearning_app/common/widgets/base_text_widget.dart';
+import 'package:ulearning_app/pages/course/bloc/course_detail_states.dart';
 
 AppBar buildAppBar() {
   return AppBar(
@@ -9,14 +11,14 @@ AppBar buildAppBar() {
   );
 }
 
-Widget thumbnail() {
+Widget thumbnail(String thumbnail) {
   return Container(
     width: 325.w,
     height: 200.h,
-    decoration: const BoxDecoration(
+    decoration: BoxDecoration(
       image: DecorationImage(
         fit: BoxFit.fitWidth,
-        image: AssetImage("assets/icons/image_1.png"),
+        image: NetworkImage("${AppConstants.SERVER_UPLOADS}$thumbnail"),
       ),
     ),
   );
@@ -70,9 +72,9 @@ Widget _iconAndNum(String iconPath, int num) {
   );
 }
 
-Widget descriptionText() {
+Widget descriptionText(String? description) {
   return reusableText(
-    "Sit dolor et ipsum exercitation aliqua. Est cupidatat labore excepteur dolore officia anim deserunt. Non voluptate in dolore duis reprehenderit qui laborum deserunt ut veniam. Commodo cillum esse exercitation ipsum dolor velit dolor minim cillum deserunt aute occaecat id.",
+    "$description",
     color: AppColors.primaryThirdElementText,
     fontWeight: FontWeight.normal,
     fontSize: 11.sp,
@@ -105,13 +107,14 @@ Widget courseSummaryTitle() {
   return reusableText("The Course Includes", fontSize: 14.sp);
 }
 
-var imagesInfo = <String, String>{
-  "36 Hourse Video": "video_detail.png",
-  "Total 30 Lessons": "file_detail.png",
-  "67 Downloadeable Resources": "download_detail.png",
-};
+Widget courseSummaryView(BuildContext context, CourseDetailStates state) {
+  var imagesInfo = <String, String>{
+    "${state.courseItem!.video_len ?? "0"} Hours Video": "video_detail.png",
+    "Total ${state.courseItem!.lesson_num ?? "0"} Lessons": "file_detail.png",
+    "${state.courseItem!.down_num ?? "0"} Downloadeable Resources":
+        "download_detail.png",
+  };
 
-Widget courseSummaryView(BuildContext context) {
   return Column(
     children: [
       ...List.generate(
